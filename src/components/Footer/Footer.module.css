@@ -1,0 +1,14 @@
+.footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background: #222222;
+    color:#61dafb;
+
+    padding:5px 30px;
+}
+
+.footer small{
+    display: block;
+}
