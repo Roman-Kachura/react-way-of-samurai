@@ -1,3 +1,5 @@
+import {rerenderEntireTree} from "../render";
+
 let state = {
     posts: [
         { id: 1, text: "post 1", likesCount: 1 },
@@ -33,8 +35,7 @@ export let addPost = (postText:string)=>{
     }
 
     state.posts.push(newPost);
-    alert(postText);
-    console.log(state.posts);
+    rerenderEntireTree(state);
 }
 
 export let sendMessage = (messageText: string)=>{
@@ -44,8 +45,7 @@ export let sendMessage = (messageText: string)=>{
     }
 
     state.messages.push(newMessage);
-    alert(messageText);
-    console.log(state.messages);
+    rerenderEntireTree(state);
 }
 
 export default state;
