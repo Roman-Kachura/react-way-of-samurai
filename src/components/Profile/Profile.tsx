@@ -3,8 +3,8 @@ import MyPosts from "./MyPosts/MyPosts";
 import s from './Profile.module.css';
 
 type profilePropsType = {
-    posts: Array<any>,
-    addPost:any
+        dispatch:any,
+        posts: Array<any>,
 }
 
 const Profile = (props:profilePropsType) => {
@@ -13,7 +13,7 @@ const Profile = (props:profilePropsType) => {
             <div>
                 ava + description
             </div>
-            <MyPosts posts={props.posts} addPost={props.addPost}/>
+            <MyPosts posts={props.posts} dispatch={props.dispatch}/>
         </section>
     );
 };

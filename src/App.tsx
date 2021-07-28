@@ -7,18 +7,15 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Navbar from "./components/Navbar/Navbar";
 
-type AppPropsType = {
-    state: {
-        posts: Array<object>,
-        messages: Array<object>,
-        dialogs:Array<object>
+type appPropsType = {
+    store:{
+        getState:any,
     }
-
-    addPost:any,
-    sendMessage:any
+        dispatch:any
 }
 
-function App(props:AppPropsType) {
+
+function App(props:appPropsType) {
   return (
     <div className='wrapper'>
       <BrowserRouter>
@@ -26,10 +23,10 @@ function App(props:AppPropsType) {
           <main>
               <Navbar/>
               <Route path='/dialogs'>
-                  <Dialogs dialogs={props.state.dialogs} messages={props.state.messages} sendMessage={props.sendMessage}/>
+                  <Dialogs dialogs={props.store.getState().DialogsPage.dialogs} messages={props.store.getState().DialogsPage.messages} dispatch={props.dispatch}/>
               </Route>
               <Route path='/profile'>
-                  <Profile posts={props.state.posts} addPost={props.addPost}/>
+                  <Profile posts={props.store.getState().ProfilePage.posts} dispatch={props.dispatch}/>
               </Route>
           </main>
           <Footer/>

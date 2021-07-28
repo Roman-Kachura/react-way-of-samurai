@@ -2,11 +2,15 @@ import React from "react";
 import DialogsItem from "./DialogItem/DialogItem";
 import s from './Dialogs.module.css';
 import Message from "./Message/Message";
+import {
+    sendMessageActionCreate,
+    updateNewMessageTextActionCreate,
+} from "../../Redux/dialogs-reducer";
 
 type DialogsPropsType = {
     dialogs: Array<any>,
     messages: Array<any>,
-    sendMessage:any
+    dispatch:any
 }
 
 type DialogType = {
@@ -29,9 +33,13 @@ const Dialogs = (props:DialogsPropsType) => {
 
     let newMessageElement = React.createRef<HTMLTextAreaElement>();
 
-    let sendMessage = ()=>{
+    let updateNewMessageText = ()=>{
         let text = newMessageElement.current?.value;
-        props.sendMessage(text);
+        props.dispatch(updateNewMessageTextActionCreate(text));
+    }
+
+    let sendMessage = ()=>{
+        props.dispatch(sendMessageActionCreate());
     }
 
     return (
@@ -40,7 +48,7 @@ const Dialogs = (props:DialogsPropsType) => {
 
             <article className={s.dialogs_messages}>
                 <div>{messagesElements}</div>
-                <textarea ref={newMessageElement}>123</textarea>
+                <textarea placeholder='New message' ref={newMessageElement} onChange={updateNewMessageText}/>
                 <button onClick={sendMessage}>send</button>
             </article>
         </section>
