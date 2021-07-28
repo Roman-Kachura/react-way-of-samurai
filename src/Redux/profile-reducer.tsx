@@ -3,7 +3,18 @@ type stateType = {
         updateNewPostText:string
 }
 
-const profileReducer = (state:stateType, action:any)=>{
+let initialState = {
+    posts: [
+        { id: 1, text: "post 1", likesCount: 1 },
+        { id: 2, text: "post 2", likesCount: 2 },
+        { id: 3, text: "post 3", likesCount: 3 },
+        { id: 4, text: "post 4", likesCount: 4 },
+    ],
+
+    updateNewPostText:''
+}
+
+const profileReducer = (state:stateType = initialState, action:any)=>{
     switch (action.type){
         case 'ADD-POST':
             let newPost = {
