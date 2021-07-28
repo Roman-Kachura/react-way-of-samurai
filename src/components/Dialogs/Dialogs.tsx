@@ -2,44 +2,28 @@ import React from "react";
 import DialogsItem from "./DialogItem/DialogItem";
 import s from './Dialogs.module.css';
 import Message from "./Message/Message";
-import {
-    sendMessageActionCreate,
-    updateNewMessageTextActionCreate,
-} from "../../Redux/dialogs-reducer";
 
 type DialogsPropsType = {
-    dialogs: Array<any>,
-    messages: Array<any>,
-    dispatch:any
-}
-
-type DialogType = {
-    name:string,
-    id:number
-}
-
-type messageType = {
-    message:string,
-    id:number
+    state:{
+        dialogs:Array<object>,
+        messages:Array<object>,
+    },
+    updateNewMessageText:any,
+    sendMessage:any
 }
 
 const Dialogs = (props:DialogsPropsType) => {
-    let dialogsElements = props.dialogs.map((d:DialogType) => {
+    let dialogsElements = props.state.dialogs.map((d:any) => {
         return <DialogsItem name={d.name} id={d.id} />;
     });
-    let messagesElements = props.messages.map((m: messageType) => {
+    let messagesElements = props.state.messages.map((m: any) => {
         return <Message message={m.message} id={m.id} />;
     });
 
-    let newMessageElement = React.createRef<HTMLTextAreaElement>();
+    let body = React.createRef<HTMLTextAreaElement>();
 
-    let updateNewMessageText = ()=>{
-        let text = newMessageElement.current?.value;
-        props.dispatch(updateNewMessageTextActionCreate(text));
-    }
-
-    let sendMessage = ()=>{
-        props.dispatch(sendMessageActionCreate());
+    let onChange = ()=>{
+        props.updateNewMessageText(body);
     }
 
     return (
@@ -48,8 +32,8 @@ const Dialogs = (props:DialogsPropsType) => {
 
             <article className={s.dialogs_messages}>
                 <div>{messagesElements}</div>
-                <textarea placeholder='New message' ref={newMessageElement} onChange={updateNewMessageText}/>
-                <button onClick={sendMessage}>send</button>
+                <textarea placeholder='New message' ref={body} onChange={onChange}/>
+                <button onClick={props.sendMessage}>send</button>
             </article>
         </section>
     );

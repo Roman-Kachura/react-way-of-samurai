@@ -8,7 +8,7 @@ import store from "./Redux/redux-store";
 let rerenderEntireTree = ()=>{
     ReactDOM.render(
         <React.StrictMode>
-            <App store={store} dispatch={store.dispatch.bind(store)}/>
+            <App store={store}/>
         </React.StrictMode>,
         document.getElementById('root')
     );
@@ -17,5 +17,4 @@ let rerenderEntireTree = ()=>{
 
 rerenderEntireTree();
 store.subscribe(rerenderEntireTree);
-console.log(store.subscribe)
 reportWebVitals();

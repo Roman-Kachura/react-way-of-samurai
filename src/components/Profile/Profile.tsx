@@ -1,10 +1,12 @@
 import React from "react";
-import MyPosts from "./MyPosts/MyPosts";
+import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import s from './Profile.module.css';
 
 type profilePropsType = {
+    store:{
         dispatch:any,
-        posts: Array<any>,
+        getState:any
+    }
 }
 
 const Profile = (props:profilePropsType) => {
@@ -13,7 +15,7 @@ const Profile = (props:profilePropsType) => {
             <div>
                 ava + description
             </div>
-            <MyPosts posts={props.posts} dispatch={props.dispatch}/>
+            <MyPostsContainer store={props.store}/>
         </section>
     );
 };
