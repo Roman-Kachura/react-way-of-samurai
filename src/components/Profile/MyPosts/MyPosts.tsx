@@ -3,28 +3,28 @@ import s from "./MyPosts.module.css";
 import Post from "./Posts/Posts";
 
 type MyPostsPropsType = {
-    state:{
-        posts:Array<object>
+    state: {
+        posts: Array<object>
     }
 
-    addPost:any,
-    updateNewPostText:any
+    addPost: any,
+    updateNewPostText: any
 }
 
 type postElementType = {
-    text:string,
-    id:number,
-    likesCount:number
+    text: string,
+    id: number,
+    likesCount: number
 }
 
-const MyPosts = (props:MyPostsPropsType) => {
-    let postsElemets = props.state.posts.map((p:any) => {
-        return <Post text={p.text} id={p.id} likesCount={p.likesCount} />;
+const MyPosts = (props: MyPostsPropsType) => {
+    let postsElemets = props.state.posts.map((p: any) => {
+        return <Post text={p.text} id={p.id} likesCount={p.likesCount}/>;
     });
 
     let body = React.createRef<HTMLTextAreaElement>();
 
-    const onChange = ()=>{
+    const onChange = () => {
         props.updateNewPostText(body);
     }
 
