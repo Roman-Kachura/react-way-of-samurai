@@ -11,11 +11,6 @@ type MyPostsPropsType = {
     updateNewPostText: any
 }
 
-type postElementType = {
-    text: string,
-    id: number,
-    likesCount: number
-}
 
 const MyPosts = (props: MyPostsPropsType) => {
     let postsElemets = props.state.posts.map((p: any) => {
@@ -25,14 +20,19 @@ const MyPosts = (props: MyPostsPropsType) => {
     let body = React.createRef<HTMLTextAreaElement>();
 
     const onChange = () => {
-        props.updateNewPostText(body);
+        let text = body.current?.value;
+        props.updateNewPostText(text);
+    }
+
+    const addPost = ()=>{
+        props.addPost();
     }
 
 
     return <div>
         <h3>MyPosts</h3>
         <textarea placeholder='Add new post' ref={body} onChange={onChange}/>
-        <button onClick={props.addPost}>Add post</button>
+        <button onClick={addPost}>Add post</button>
         <div>{postsElemets}</div>
     </div>;
 };

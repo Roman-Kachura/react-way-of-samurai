@@ -22,7 +22,6 @@ const profileReducer = (state:stateType = initialState, action:any)=>{
                 text:state.updateNewPostText,
                 likesCount:0
             }
-
             state.posts.push(newPost);
             state.updateNewPostText = '';
             return state;
