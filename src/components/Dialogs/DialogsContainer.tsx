@@ -8,7 +8,8 @@ import {connect} from "react-redux";
 
 const mapStateToProps = (state:any)=>{
     return {
-        state:state.DialogsPage
+        state:state.DialogsPage,
+        newMessageText: state.DialogsPage.newMessageText
     }
 }
 

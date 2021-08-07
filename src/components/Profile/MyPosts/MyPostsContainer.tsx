@@ -6,13 +6,15 @@ import {connect} from "react-redux";
 
 const mapStateToProps = (state:any)=>{
     return {
-        state:state.ProfilePage
+        state:state.ProfilePage,
+        newPostText: state.ProfilePage.newPostText
     }
 }
 
 const mapDispatchToProps = (dispatch:any)=>{
     return {
-        updateNewPostText:(text:any)=>{
+        updateNewPostText:(body:any)=>{
+            let text = body.current?.value;
             dispatch(updateNewPostTextActionCreate(text));
         },
 

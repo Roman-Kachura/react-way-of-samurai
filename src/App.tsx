@@ -5,7 +5,9 @@ import Profile from "./components/Profile/Profile";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Navbar from "./components/Navbar/Navbar";
+
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import UsersContainer from "./components/Users/UsersContainer";
 
 function App() {
   return (
@@ -19,6 +21,10 @@ function App() {
               </Route>
               <Route path='/profile'>
                   <Profile/>
+              </Route>
+
+              <Route path='/users'>
+                <UsersContainer/>
               </Route>
           </main>
           <Footer/>

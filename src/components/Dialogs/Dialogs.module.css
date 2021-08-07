@@ -4,7 +4,7 @@
 }
 
 .dialogs_name{
-    background:#333;
+    background:#999;
 }
 
 .dialogs_name a{
@@ -27,12 +27,12 @@
 }
 
 .dialogs a:hover{
-    background:#222;
+    background:#555;
     color:#61dafb;
 }
 
 .dialogs_name a.active{
-    background:#222;
+    background:#555;
     color:#61dafb;
 }
 
@@ -68,7 +68,7 @@
 }
 
 .dialogs_messages{
-    background:#555;
+    background:#aaa;
     padding: 10px 20px;
 }
 

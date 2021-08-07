@@ -1,6 +1,6 @@
 type stateType = {
         posts:Array<any>,
-        updateNewPostText:string
+        newPostText:string
 }
 
 let initialState = {
@@ -11,23 +11,25 @@ let initialState = {
         { id: 4, text: "post 4", likesCount: 4 },
     ],
 
-    updateNewPostText:''
+    newPostText:''
 }
 
 const profileReducer = (state:stateType = initialState, action:any)=>{
     switch (action.type){
-        case 'ADD-POST':
-            let newPost = {
-                id:state.posts.length + 1,
-                text:state.updateNewPostText,
-                likesCount:0
-            }
-            state.posts.push(newPost);
-            state.updateNewPostText = '';
-            return state;
-        case 'UPDATE-NEW-POST-TEXT':
-            state.updateNewPostText = action.text;
-            return state;
+        case 'ADD-POST':{
+            return {
+                ...state,
+                posts:[...state.posts, {id:state.posts.length + 1, text:state.newPostText,likesCount:0}],
+                newPostText: ''
+            };
+        }
+
+        case 'UPDATE-NEW-POST-TEXT':{
+            return {
+                ...state,
+                newPostText: action.text
+            };
+        }
         default: return  state;
     }
 }

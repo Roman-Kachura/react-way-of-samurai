@@ -8,6 +8,7 @@ type DialogsPropsType = {
         dialogs:Array<object>,
         messages:Array<object>,
     },
+    newMessageText:string,
     updateNewMessageText:any,
     sendMessage:any
 }
@@ -32,7 +33,7 @@ const Dialogs = (props:DialogsPropsType) => {
 
             <article className={s.dialogs_messages}>
                 <div>{messagesElements}</div>
-                <textarea placeholder='New message' ref={body} onChange={onChange}/>
+                <textarea placeholder='New message' ref={body} onChange={onChange} value={props.newMessageText}/>
                 <button onClick={props.sendMessage}>send</button>
             </article>
         </section>

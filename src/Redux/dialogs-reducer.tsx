@@ -1,7 +1,7 @@
 type stateType = {
     messages:Array<any>,
     dialogs:Array<any>,
-    updateNewMessageText:string
+    newMessageText:string
 }
 
 let initialState = {
@@ -23,23 +23,19 @@ let initialState = {
         { id: 6, name: "Kolya" },
     ],
 
-    updateNewMessageText:''
+    newMessageText:''
 }
 
 const dialogReducer = (state:stateType = initialState, action:any)=>{
     switch (action.type){
         case 'SEND-MESSAGE':
-            let newMessage = {
-                id:state.messages.length + 1,
-                message:state.updateNewMessageText
+            return{
+                ...state,
+                messages:[...state.messages,{id:state.messages.length + 1,message:state.newMessageText}],
+                newMessageText:''
             }
-
-            state.messages.push(newMessage);
-            state.updateNewMessageText = '';
-            return state;
         case 'UPDATE-NEW-MESSAGE-TEXT':
-            state.updateNewMessageText = action.text;
-            return state;
+            return{...state, newMessageText:action.text};
         default: return state;
     }
 }

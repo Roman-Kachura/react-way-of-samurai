@@ -7,6 +7,8 @@ type MyPostsPropsType = {
         posts: Array<object>
     }
 
+    newPostText:string,
+
     addPost: any,
     updateNewPostText: any
 }
@@ -20,18 +22,16 @@ const MyPosts = (props: MyPostsPropsType) => {
     let body = React.createRef<HTMLTextAreaElement>();
 
     const onChange = () => {
-        let text = body.current?.value;
-        props.updateNewPostText(text);
+        props.updateNewPostText(body);
     }
 
     const addPost = ()=>{
         props.addPost();
     }
 
-
     return <div>
         <h3>MyPosts</h3>
-        <textarea placeholder='Add new post' ref={body} onChange={onChange}/>
+        <textarea placeholder='Add new post' ref={body} onChange={onChange} value={props.newPostText}/>
         <button onClick={addPost}>Add post</button>
         <div>{postsElemets}</div>
     </div>;

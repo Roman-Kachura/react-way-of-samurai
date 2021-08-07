@@ -8,6 +8,7 @@ const Navbar = () => {
 
             <NavLink to='/profile' activeClassName={s.active}>Profile</NavLink>
             <NavLink to='/dialogs' activeClassName={s.active}>Message</NavLink>
+            <NavLink to='/users' activeClassName={s.active}>Users</NavLink>
 
 
             <a href="#">News</a>
