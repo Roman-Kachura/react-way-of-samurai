@@ -1,27 +1,32 @@
 import React from "react";
 import {connect} from "react-redux";
 import Users from "./Users";
-import {followAC, setCurrentPageAC, setTotalUsersCountAC, setUsersAC, unfollowAC} from "../../Redux/users-reducer";
+import {follow, setCurrentPage, setPreloader, setTotalUsersCount, setUsers, unfollow} from "../../Redux/users-reducer";
 import axios from "axios";
+import Preload from "../../common/Preload/Preload";
 
 interface RecipeProps {
-    state:{
-        users:Array<object>,
-        totalUsersCount:number,
-        pageSize:number,
-        currentPage:number
+    state: {
+        users: Array<object>,
+        totalUsersCount: number,
+        pageSize: number,
+        currentPage: number,
+        isPreloader:boolean
     },
-    setUsers:any,
-    follow:any,
-    unfollow:any,
-    setCurrentPage:any,
-    setTotalUsersCount:any
+    setUsers: any,
+    follow: any,
+    unfollow: any,
+    setCurrentPage: any,
+    setTotalUsersCount: any,
+    setPreloader:any
 }
 
 class UsersAPIContainer extends React.Component <RecipeProps> {
     componentDidMount() {
+        this.props.setPreloader(true);
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.state.currentPage}&count=${this.props.state.pageSize}`)
             .then(response => {
+                this.props.setPreloader(false);
                 this.props.setUsers(response.data.items);
                 this.props.setTotalUsersCount(response.data.totalCount);
             });
@@ -30,20 +35,27 @@ class UsersAPIContainer extends React.Component <RecipeProps> {
 
     clickBtn = (numPage: number) => {
         this.props.setCurrentPage(numPage);
+        this.props.setPreloader(true);
+
 
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${numPage}&count=${this.props.state.pageSize}`)
             .then(response => {
+                this.props.setPreloader(false);
                 this.props.setUsers(response.data.items);
                 this.props.setTotalUsersCount(response.data.totalCount);
             });
     }
 
-    render(){
-        return <Users
-            state={this.props.state}
-            follow={this.props.follow}
-            unfollow={this.props.unfollow}
-            clickBtn={this.clickBtn}/>
+    render() {
+        return <>
+            {this.props.state.isPreloader ? <Preload/> : null}
+            <Users
+                state={this.props.state}
+                follow={this.props.follow}
+                unfollow={this.props.unfollow}
+                clickBtn={this.clickBtn}
+            />
+        </>
     }
 }
 
@@ -54,31 +66,14 @@ const mapStateToProps = (state: any) => {
     }
 }
 
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        unfollow: (userId: number) => {
-            dispatch(unfollowAC(userId));
-        },
 
-        follow: (userId: number) => {
-            dispatch(followAC(userId));
-        },
-
-        setUsers: (users: Array<object>) => {
-            dispatch(setUsersAC(users));
-        },
-
-        setCurrentPage: (numPage: number) => {
-
-            dispatch(setCurrentPageAC(numPage))
-        },
-
-        setTotalUsersCount: (count: number) => {
-            dispatch(setTotalUsersCountAC(count))
-        }
-    }
-}
-
-const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIContainer);
+const UsersContainer = connect(mapStateToProps, {
+    unfollow,
+    follow,
+    setUsers,
+    setCurrentPage,
+    setTotalUsersCount,
+    setPreloader
+})(UsersAPIContainer);
 
 export default UsersContainer;

@@ -1,21 +1,24 @@
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
-const setUsers = 'SETUSERS';
-const setCurrentPage = 'SET_CURRENT_PAGE';
-const setTotalUsersCount = 'SET_TOTAL_USERS_COUNT';
+const SET_USERS = 'SETUSERS';
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
+const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
+const SET_PRELOADER = 'SET_PRELOADER';
 
 type stateType = {
     users:Array<object>,
     totalUsersCount:number,
     pageSize:number,
-    currentPage:number
+    currentPage:number,
+    isPreloader:boolean
 }
 
 let initialState = {
     users:[],
     totalUsersCount:0,
     pageSize:10,
-    currentPage:2
+    currentPage:2,
+    isPreloader:true
 }
 
 const usersReducer = (state:stateType = initialState, action:any)=>{
@@ -41,31 +44,37 @@ const usersReducer = (state:stateType = initialState, action:any)=>{
                     return u;
                 })
             };
-        case setUsers:
+        case SET_USERS:
             return {
                 ...state,
                 users:action.users
             };
 
-        case setCurrentPage:
+        case SET_CURRENT_PAGE:
             return {
                 ...state,
                 currentPage:action.currentPage
             }
 
-        case setTotalUsersCount:
+        case SET_TOTAL_USERS_COUNT:
             return {
                 ...state,
                 totalUsersCount:action.count
+            }
+        case SET_PRELOADER:
+            return {
+                ...state,
+                isPreloader:action.isPreloader
             }
         default: return state;
     }
 }
 
-export const followAC = (userId:number)=>{return {type:FOLLOW, userId}};
-export const unfollowAC = (userId:number)=> {return {type:UNFOLLOW, userId}};
-export const setUsersAC= (users:Array<object>)=>{return{type:setUsers, users}};
-export const setCurrentPageAC = (numPage:number)=>{return {type:setCurrentPage, currentPage: numPage}};
-export const setTotalUsersCountAC = (count:number)=>{return{type:setTotalUsersCount, count}}
+export const follow = (userId:number)=>{return {type:FOLLOW, userId}};
+export const unfollow = (userId:number)=> {return {type:UNFOLLOW, userId}};
+export const setUsers= (users:Array<object>)=>{return{type:SET_USERS, users}};
+export const setCurrentPage = (numPage:number)=>{return {type:SET_CURRENT_PAGE, currentPage: numPage}};
+export const setTotalUsersCount = (count:number)=>{return{type:SET_TOTAL_USERS_COUNT, count}};
+export const setPreloader = (isPreloader:boolean)=>{return{type:SET_PRELOADER, isPreloader}};
 
 export default usersReducer;
