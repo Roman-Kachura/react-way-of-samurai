@@ -17,7 +17,7 @@ type MyPostsPropsType = {
 const MyPosts = (props: MyPostsPropsType) => {
     let postsElemets = props.state.posts.map((p: any) => {
         return <Post text={p.text} id={p.id} likesCount={p.likesCount}/>;
-    });
+    }).reverse();
 
     let body = React.createRef<HTMLTextAreaElement>();
 

@@ -7,9 +7,19 @@ body{
     margin: 0;
 }
 
+header{
+    height: 8%;
+}
+
+footer{
+    height: 8%;
+}
+
 main{
+    height: 84%;
     display: grid;
-    grid-template-columns: 1fr 5fr;
+    grid-template-columns: 1fr 4fr;
+    position: relative;
 }
 
 #wt-sky-root{

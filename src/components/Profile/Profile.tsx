@@ -1,13 +1,21 @@
 import React from "react";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import s from './Profile.module.css';
+import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
-const Profile = () => {
+type profileStateType = {
+    state:{
+        profile:any
+    },
+
+    linkUrl:any
+}
+
+const Profile = (props:profileStateType) => {
+    // console.log(props.state.profile);
     return (
         <section className={s.profile}>
-            <div>
-                ava + description
-            </div>
+            <ProfileInfo profile={props.state.profile} linkUrl={props.linkUrl}/>
             <MyPostsContainer/>
         </section>
     );

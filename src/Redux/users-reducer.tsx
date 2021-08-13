@@ -17,7 +17,7 @@ let initialState = {
     users:[],
     totalUsersCount:0,
     pageSize:10,
-    currentPage:2,
+    currentPage:1,
     isPreloader:true
 }
 

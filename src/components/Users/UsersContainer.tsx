@@ -4,6 +4,7 @@ import Users from "./Users";
 import {follow, setCurrentPage, setPreloader, setTotalUsersCount, setUsers, unfollow} from "../../Redux/users-reducer";
 import axios from "axios";
 import Preload from "../../common/Preload/Preload";
+import {withRouter} from "react-router-dom";
 
 interface RecipeProps {
     state: {
@@ -46,6 +47,27 @@ class UsersAPIContainer extends React.Component <RecipeProps> {
             });
     }
 
+    buttonsShow = ()=>{
+        let n = this.props.state.currentPage;
+        const numbersPages = Math.ceil(this.props.state.totalUsersCount /this.props.state.pageSize);
+        let buttons = [];
+        if(n < 6){
+            for(let i = 1; i <= 11; i++){
+                buttons.push(i);
+            }
+        } else if(n >=6 && n < numbersPages){
+            for(let i = n - 5; i < n + 6; i++){
+                buttons.push(i);
+            }
+        }else if(n < (numbersPages) && n > (numbersPages - 11)){
+            for(let i = numbersPages - 11; i < numbersPages; i++){
+                buttons.push(i);
+            }
+        }
+
+        return buttons;
+    }
+
     render() {
         return <>
             {this.props.state.isPreloader ? <Preload/> : null}
@@ -54,6 +76,7 @@ class UsersAPIContainer extends React.Component <RecipeProps> {
                 follow={this.props.follow}
                 unfollow={this.props.unfollow}
                 clickBtn={this.clickBtn}
+                buttonsShow={this.buttonsShow}
             />
         </>
     }

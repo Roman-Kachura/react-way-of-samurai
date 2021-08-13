@@ -1,6 +1,7 @@
 import React from "react";
 import s from './Users.module.css';
 import usersPhoto from './../../source/user_img.jpg';
+import {NavLink} from "react-router-dom";
 
 type statePropsType = {
     state:{
@@ -12,23 +13,22 @@ type statePropsType = {
 
     unfollow:any,
     follow:any,
-    clickBtn:any
+    clickBtn:any,
+    buttonsShow:any
 }
 
 
 const Users = (props:statePropsType) => {
-    const numbersPages = Math.ceil(props.state.totalUsersCount /props.state.pageSize);
-
-    let pages = [];
-    for (let i = 1; i <= numbersPages; i++) {
-        pages.push(i);
-    }
+    let pages = props.buttonsShow();
 
     let usersElem = props.state.users.map((u: any) => {
         return (
             <article key={u.id} className={s.usersItem}>
                 <div className={s.usersPhoto}>
-                    <img src={u.photoUrl || usersPhoto} alt={'userPhoto'}/>
+                    <NavLink to={'/profile/' + u.id}>
+                        <img src={u.photos.small === null ? usersPhoto : u.photos.small } alt={'userPhoto'}/>
+                    </NavLink>
+
                     {u.followed
                         ? <button onClick={() => props.unfollow(u.id)}>Unfollow</button>
                         : <button onClick={() => props.follow(u.id)}>Follow</button>
@@ -46,7 +46,7 @@ const Users = (props:statePropsType) => {
         );
     });
 
-        let pagesElem = pages.map(p => {
+        let pagesElem = pages.map((p:number) => {
             return <button onClick={() => {
                 props.clickBtn(p)
             }}

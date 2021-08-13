@@ -58,13 +58,28 @@
 .btnsBlock{
     display: flex;
     margin: 0 auto;
+    /*width: 200px;*/
 }
 
 .btn{
+    display: block;
+    border:none;
+    width: 10%;
+    padding:5px 10px;
+    margin: 0 5px;
 
+    outline: none;
+    transition: .3s;
+    cursor:pointer;
+    background: rgba(0,0,0,0);
 }
 
 .btnActive{
-    background: #61dafb;
+    border: none;
+    width: 10%;
+    background: rgba(0,0,0,0);
+    padding:5px 10px;
+    margin: 0 5px;
+    color:#61dafb;
 }
 

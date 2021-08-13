@@ -1,10 +1,20 @@
 import React from 'react';
 import s from './Header.module.css';
-// import  from './logo.png';
+import {NavLink} from "react-router-dom";
 
-const Header = ()=>{
+type stateType = {
+    state:{login:any,email:any,id:any},
+    setUserAuthorized:any
+}
+
+const Header = (props:any)=>{
+
     return(<header className={s.header}>
-        <img src='https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg' />
+        <img alt = '' src='https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg' />
+        <div className={s.loginBlock}>
+            {props.state.isAuth ? props.state.login : <NavLink to='/login'>{'Login'}</NavLink>}
+
+        </div>
     </header>);
 }
 

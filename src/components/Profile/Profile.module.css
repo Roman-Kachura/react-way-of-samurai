@@ -8,4 +8,6 @@
     -moz-transition: .2s;
     -ms-transition: .2s;
     -o-transition: .2s;
+
+    overflow-y: auto;
 }
