@@ -4,13 +4,15 @@ const SET_USERS = 'SETUSERS';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const SET_PRELOADER = 'SET_PRELOADER';
+const TOGGLE_FOLLOWING_PROGRESS = 'TOGGLE_FOLLOWING_PROGRESS';
 
 type stateType = {
     users:Array<object>,
     totalUsersCount:number,
     pageSize:number,
     currentPage:number,
-    isPreloader:boolean
+    isPreloader:boolean,
+    followingInProgress:Array<object>
 }
 
 let initialState = {
@@ -18,7 +20,9 @@ let initialState = {
     totalUsersCount:0,
     pageSize:10,
     currentPage:1,
-    isPreloader:true
+    isPreloader:true,
+    followingInProgress:[]
+
 }
 
 const usersReducer = (state:stateType = initialState, action:any)=>{
@@ -66,6 +70,14 @@ const usersReducer = (state:stateType = initialState, action:any)=>{
                 ...state,
                 isPreloader:action.isPreloader
             }
+
+        case TOGGLE_FOLLOWING_PROGRESS:
+            return {
+                ...state,
+                followingInProgress:action.isFetching ?
+                    [...state.followingInProgress, action.userId]
+                    : state.followingInProgress.filter(id => id != action.userId)
+            }
         default: return state;
     }
 }
@@ -76,5 +88,6 @@ export const setUsers= (users:Array<object>)=>{return{type:SET_USERS, users}};
 export const setCurrentPage = (numPage:number)=>{return {type:SET_CURRENT_PAGE, currentPage: numPage}};
 export const setTotalUsersCount = (count:number)=>{return{type:SET_TOTAL_USERS_COUNT, count}};
 export const setPreloader = (isPreloader:boolean)=>{return{type:SET_PRELOADER, isPreloader}};
+export const toggleFollowingProgress = (isFetching:boolean, userId:number)=>{return{type:TOGGLE_FOLLOWING_PROGRESS, userId, isFetching}}
 
 export default usersReducer;

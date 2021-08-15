@@ -1,10 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
 import Users from "./Users";
-import {follow, setCurrentPage, setPreloader, setTotalUsersCount, setUsers, unfollow} from "../../Redux/users-reducer";
-import axios from "axios";
+import {follow, setCurrentPage, setPreloader, setTotalUsersCount, setUsers, unfollow,toggleFollowingProgress} from "../../Redux/users-reducer";
 import Preload from "../../common/Preload/Preload";
-import {withRouter} from "react-router-dom";
+import {userAPI} from "../../API/API";
 
 interface RecipeProps {
     state: {
@@ -12,24 +11,26 @@ interface RecipeProps {
         totalUsersCount: number,
         pageSize: number,
         currentPage: number,
-        isPreloader:boolean
+        isPreloader:boolean,
+        followingInProgress:Array<object>
     },
     setUsers: any,
     follow: any,
     unfollow: any,
     setCurrentPage: any,
     setTotalUsersCount: any,
-    setPreloader:any
+    setPreloader:any,
+    toggleFollowingProgress: any
 }
 
 class UsersAPIContainer extends React.Component <RecipeProps> {
     componentDidMount() {
         this.props.setPreloader(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.state.currentPage}&count=${this.props.state.pageSize}`)
-            .then(response => {
+        userAPI.getUsers(this.props.state.currentPage, this.props.state.pageSize)
+            .then(data => {
                 this.props.setPreloader(false);
-                this.props.setUsers(response.data.items);
-                this.props.setTotalUsersCount(response.data.totalCount);
+                this.props.setUsers(data.items);
+                this.props.setTotalUsersCount(data.totalCount);
             });
     }
 
@@ -39,11 +40,11 @@ class UsersAPIContainer extends React.Component <RecipeProps> {
         this.props.setPreloader(true);
 
 
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${numPage}&count=${this.props.state.pageSize}`)
-            .then(response => {
+        userAPI.getUsers(numPage, this.props.state.pageSize)
+            .then(data => {
                 this.props.setPreloader(false);
-                this.props.setUsers(response.data.items);
-                this.props.setTotalUsersCount(response.data.totalCount);
+                this.props.setUsers(data.items);
+                this.props.setTotalUsersCount(data.totalCount);
             });
     }
 
@@ -77,6 +78,7 @@ class UsersAPIContainer extends React.Component <RecipeProps> {
                 unfollow={this.props.unfollow}
                 clickBtn={this.clickBtn}
                 buttonsShow={this.buttonsShow}
+                toggleFollowingProgress={this.props.toggleFollowingProgress}
             />
         </>
     }
@@ -96,7 +98,8 @@ const UsersContainer = connect(mapStateToProps, {
     setUsers,
     setCurrentPage,
     setTotalUsersCount,
-    setPreloader
+    setPreloader,
+    toggleFollowingProgress
 })(UsersAPIContainer);
 
 export default UsersContainer;

@@ -13,7 +13,6 @@ const Header = (props:any)=>{
         <img alt = '' src='https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg' />
         <div className={s.loginBlock}>
             {props.state.isAuth ? props.state.login : <NavLink to='/login'>{'Login'}</NavLink>}
-
         </div>
     </header>);
 }
