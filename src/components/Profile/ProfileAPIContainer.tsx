@@ -1,37 +1,39 @@
 import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {setUserProfile} from "../../Redux/profile-reducer";
+import {getUserProfile} from "../../Redux/profile-reducer";
 import {withRouter} from "react-router-dom";
-import {profileAPI} from "../../API/API";
+import {withAuthRedirect} from "../HOC/withAuthRedirect";
+import {StateType} from "../../Redux/redux-store";
+import {compose} from "redux";
+
 
 interface RecipeProps {
     state: {
         profile: any
     },
 
-    setUserProfile: any,
-    history: any,
-    location: any,
-    match: any,
+    getUserProfile: any
+    history: any
+    location: any
+    match: any
     staticContext: any
 }
 
 class ProfileAPIContainer extends React.Component <RecipeProps> {
     componentDidMount() {
         let userId = this.props.match.params.userId;
-        if(!userId){
+        if (!userId) {
             userId = 2;
         }
-        profileAPI.getProfile(userId)
-            .then(data => {
-                this.props.setUserProfile(data);
-            })
+        this.props.getUserProfile(userId);
     }
 
-    linkUrl = (url:string) =>{
-        if(url.substr(0,8) !== 'https://'){
-            {window.location.href = 'https://' + url}
+    linkUrl = (url: string) => {
+        if (url.substr(0, 8) !== 'https://') {
+            {
+                window.location.href = 'https://' + url
+            }
         }
     }
 
@@ -42,11 +44,19 @@ class ProfileAPIContainer extends React.Component <RecipeProps> {
     }
 }
 
-let withRouterUserContainer = withRouter(ProfileAPIContainer);
+const mapStateToPropsAuthRedirect = (state: StateType) => {
+    return {isAuth: state.AuthPage.isAuth}
+}
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: StateType) => {
     return {state: state.ProfilePage}
 }
 
-const ProfileContainer = connect(mapStateToProps, {setUserProfile})(withRouterUserContainer);
+const ProfileContainer: any = compose(
+    connect(mapStateToProps, {getUserProfile}),
+    withRouter,
+    connect(mapStateToPropsAuthRedirect),
+    withAuthRedirect
+)(ProfileAPIContainer)
+
 export default ProfileContainer;

@@ -3,13 +3,14 @@ import DialogsItem from "./DialogItem/DialogItem";
 import s from './Dialogs.module.css';
 import Message from "./Message/Message";
 
-type DialogsPropsType = {
+export type DialogsPropsType = {
     state:{
-        dialogs:Array<object>,
-        messages:Array<object>,
+        dialogs:Array<object>
+        messages:Array<object>
+
     },
-    newMessageText:string,
-    updateNewMessageText:any,
+    newMessageText:string
+    updateNewMessageText:any
     sendMessage:any
 }
 

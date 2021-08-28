@@ -1,9 +1,17 @@
+import {profileAPI} from "../API/API";
+
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 
-type stateType = {
-        posts:Array<any>,
+export type ProfileStateType = {
+        posts:Array<PostType>,
         newPostText:string,
         profile:any
+}
+
+type PostType = {
+    id:number
+    text:string
+    likesCount:number
 }
 
 let initialState = {
@@ -17,7 +25,7 @@ let initialState = {
     profile:null
 }
 
-const profileReducer = (state:stateType = initialState, action:any)=>{
+const profileReducer = (state:ProfileStateType = initialState, action:any)=>{
     switch (action.type){
         case 'ADD-POST':{
             return {
@@ -44,8 +52,15 @@ const profileReducer = (state:stateType = initialState, action:any)=>{
     }
 }
 
+export const setUserProfile = (profile:any) => ({type:SET_USER_PROFILE, profile});
+
 export const addPostActionCreate = ()=> ({type:'ADD-POST'});
-export const setUserProfile = (profile:any)=> ({type:SET_USER_PROFILE, profile});
+export const getUserProfile = (userId:number)=> (dispatch:any)=>{
+    profileAPI.getProfile(userId)
+        .then(data => {
+            dispatch(setUserProfile(data));
+        })
+};
 export const updateNewPostTextActionCreate = (newText:any)=>{
     return {
         type:'UPDATE-NEW-POST-TEXT',

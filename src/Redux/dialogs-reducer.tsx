@@ -1,7 +1,17 @@
-type stateType = {
-    messages:Array<any>,
-    dialogs:Array<any>,
+export type DialogsStateType = {
+    messages:Array<MessageType>,
+    dialogs:Array<DialogType>,
     newMessageText:string
+}
+
+type MessageType = {
+    id:number
+    message:string
+}
+
+type DialogType = {
+    id:number
+    name:String
 }
 
 let initialState = {
@@ -26,7 +36,7 @@ let initialState = {
     newMessageText:''
 }
 
-const dialogReducer = (state:stateType = initialState, action:any)=>{
+const dialogReducer = (state:DialogsStateType = initialState, action:any)=>{
     switch (action.type){
         case 'SEND-MESSAGE':
             return{

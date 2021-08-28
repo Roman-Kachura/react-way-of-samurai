@@ -10,18 +10,18 @@ type statePropsType = {
         pageSize: number,
         currentPage: number,
         users: Array<object>,
-        followingInProgress:Array<object>
+        followingInProgress: Array<object>
     },
 
     unfollow: any,
     follow: any,
     clickBtn: any,
     buttonsShow: any,
-    toggleFollowingProgress:any
+    toggleFollowingProgress: any
 }
 
 
-const Users = (props: statePropsType) => {
+const Users: React.FC<statePropsType> = (props) => {
     let pages = props.buttonsShow();
 
     let usersElem = props.state.users.map((u: any) => {
@@ -35,24 +35,13 @@ const Users = (props: statePropsType) => {
                     {u.followed
                         ? <button disabled={props.state.followingInProgress.some(id => id === u.id)} onClick={
                             () => {
-                                console.log(props.state.followingInProgress);
-                                props.toggleFollowingProgress(true, u.id);
-                                userAPI.unfollow(u.id).then(data => {
-                                    if (data.resultCode === 0) {
-                                        props.unfollow(u.id);
-                                    }
-                                })
-                                props.toggleFollowingProgress(false, u.id);
+                                props.unfollow(u.id)
                             }
                         }>Unfollow</button>
-                        : <button disabled={props.state.followingInProgress.some(id => id === u.id)} onClick={() => {
-                            props.toggleFollowingProgress(true, u.id);
-                            userAPI.follow(u.id).then(data => {
-                                if (data.resultCode === 0) {
-                                    props.follow(u.id);
-                                }
-                            })
-                            props.toggleFollowingProgress(false, u.id);
+                        : <button disabled={props.state.followingInProgress.some(id => {
+                            return id === u.id
+                        })} onClick={() => {
+                            props.follow(u.id)
                         }}>Follow</button>
                     }
                 </div>
@@ -62,8 +51,6 @@ const Users = (props: statePropsType) => {
                     <div className={s.usersLocation}>{'u.location.country'}, {'u.location.city'}</div>
                     <div className={s.usersStatus}>{u.status || 'Enter status'}</div>
                 </div>
-
-
             </article>
         );
     });

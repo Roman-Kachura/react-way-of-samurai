@@ -1,9 +1,21 @@
 import React from "react";
 import {connect} from "react-redux";
 import Users from "./Users";
-import {follow, setCurrentPage, setPreloader, setTotalUsersCount, setUsers, unfollow,toggleFollowingProgress} from "../../Redux/users-reducer";
+import {
+    follow,
+    setCurrentPage,
+    setPreloader,
+    setTotalUsersCount,
+    setUsers,
+    unfollow,
+    toggleFollowingProgress,
+    getUsers
+} from "../../Redux/users-reducer";
 import Preload from "../../common/Preload/Preload";
 import {userAPI} from "../../API/API";
+import {StateType} from "../../Redux/redux-store";
+import {withAuthRedirect} from "../HOC/withAuthRedirect";
+import {compose} from "redux";
 
 interface RecipeProps {
     state: {
@@ -21,17 +33,12 @@ interface RecipeProps {
     setTotalUsersCount: any,
     setPreloader:any,
     toggleFollowingProgress: any
+    getUsers:any
 }
 
 class UsersAPIContainer extends React.Component <RecipeProps> {
     componentDidMount() {
-        this.props.setPreloader(true);
-        userAPI.getUsers(this.props.state.currentPage, this.props.state.pageSize)
-            .then(data => {
-                this.props.setPreloader(false);
-                this.props.setUsers(data.items);
-                this.props.setTotalUsersCount(data.totalCount);
-            });
+        this.props.getUsers(this.props.state.currentPage, this.props.state.pageSize);
     }
 
 
@@ -85,21 +92,20 @@ class UsersAPIContainer extends React.Component <RecipeProps> {
 }
 
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: StateType) => {
     return {
         state: state.UsersPage
     }
 }
 
+const mapStateToPropsAuthRedirect = (state: StateType) => {
+    return {isAuth:state.AuthPage.isAuth}
+}
 
-const UsersContainer = connect(mapStateToProps, {
-    unfollow,
-    follow,
-    setUsers,
-    setCurrentPage,
-    setTotalUsersCount,
-    setPreloader,
-    toggleFollowingProgress
-})(UsersAPIContainer);
+const UsersContainer:any = compose(
+    connect(mapStateToProps, {unfollow, follow, setUsers, setCurrentPage, setTotalUsersCount, setPreloader, toggleFollowingProgress, getUsers}),
+    connect(mapStateToPropsAuthRedirect),
+    withAuthRedirect
+)(UsersAPIContainer)
 
 export default UsersContainer;

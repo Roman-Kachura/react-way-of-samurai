@@ -3,11 +3,11 @@ import './App.css';
 import { BrowserRouter, Route } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import Navbar from "./components/Navbar/Navbar";
-
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileAPIContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import Login from "./components/Login/Login";
 
 function App() {
   return (
@@ -25,6 +25,10 @@ function App() {
 
               <Route path='/users'>
                 <UsersContainer/>
+              </Route>
+
+              <Route path='/login'>
+                  <Login/>
               </Route>
           </main>
           <Footer/>

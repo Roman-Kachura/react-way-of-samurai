@@ -1,35 +1,31 @@
 import React from 'react';
 import Header from "./Header";
 import {connect} from "react-redux";
-import {setUserAuthorized} from "../../Redux/auth-reducer";
+import {getUserAuthorized} from "../../Redux/auth-reducer";
 import {loginAPI} from "../../API/API";
 
 interface forHeaderContainer {
-    state:object,
-    setUserAuthorized:any
+    state: object,
+    getUserAuthorized: any
 }
 
 
-class HeaderAPIContainer extends React.Component<forHeaderContainer>{
+class HeaderAPIContainer extends React.Component<forHeaderContainer> {
     componentDidMount() {
-                loginAPI.getLogin().then(data => {
-                if(data.resultCode === 0){
-                    let {id,email,login} = data.data;
-                    this.props.setUserAuthorized(id,email,login);
-                }
-            });
+        this.props.getUserAuthorized();
     }
-    render(){
-        return(<Header  {...this.props}/>);
+
+    render() {
+        return (<Header  {...this.props}/>);
     }
 }
 
-const mapStateToProps = (state:any) =>{
+const mapStateToProps = (state: any) => {
     return {
-        state:state.AuthPage
+        state: state.AuthPage
     }
 }
 
-const HeaderContainer = connect(mapStateToProps, {setUserAuthorized})(HeaderAPIContainer);
+const HeaderContainer = connect(mapStateToProps, {getUserAuthorized})(HeaderAPIContainer);
 
 export default HeaderContainer;

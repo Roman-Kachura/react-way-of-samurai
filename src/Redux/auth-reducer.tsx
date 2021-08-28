@@ -1,9 +1,12 @@
+import {loginAPI} from "../API/API";
+
 const SET_USER_AUTHORIZED = 'SET_USER_AUTHORIZED';
 
 type stateType = {
-    login:string,
-    email:string,
+    login:string | any
+    email:string | any
     id:number
+    isAuth:boolean
 }
 
 let initialState = {
@@ -29,5 +32,13 @@ const authReducer = (state:any = initialState,action:any) =>{
 }
 
 export const setUserAuthorized = (id:any,email:any,login:any)=>({type:SET_USER_AUTHORIZED, id,email,login});
+export const getUserAuthorized = () => (dispatch:any)=>{
+    loginAPI.getLogin().then(data => {
+        if(data.resultCode === 0){
+            let {id,email,login} = data.data;
+            dispatch(setUserAuthorized(id,email,login));
+        }
+    });
+}
 
 export default authReducer;
